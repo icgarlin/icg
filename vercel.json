@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/billboard-hiphop/update",
+      "schedule": "0 13 * * 2"
+    }
+  ]
+}
