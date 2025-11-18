@@ -96,7 +96,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen px-4" style={{ backgroundColor: '#D9D9D9' }}>
-      <div className="flex justify-center pt-8 md:pt-16">
+      <a href="/" className="flex justify-center pt-8 md:pt-16">
         <svg
           width="100%"
           height="100"
@@ -123,7 +123,7 @@ export default function Home() {
             </textPath>
           </text>
         </svg>
-      </div>
+      </a>
 
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8 md:mt-12">
         {error ? (

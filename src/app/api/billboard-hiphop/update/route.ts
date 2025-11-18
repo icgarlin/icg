@@ -213,12 +213,12 @@ function checkDiscogsGenre(data: any): boolean {
 
       const allGenreData = [...genres, ...styles].map((g: string) => g.toLowerCase());
 
-      console.log(allGenreData)
       if (allGenreData.some((g: string) =>
         (g.includes('hip hop') && allGenreData.length === 1) ||
         (g.includes('rap') && allGenreData.length <= 4) ||
         g.includes('trap') ||
-        g.includes('drill')
+        g.includes('drill') || 
+        g.includes('gangsta')
       )) {
         return true;
       }
