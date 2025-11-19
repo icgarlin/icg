@@ -95,82 +95,92 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen px-4" style={{ backgroundColor: '#D9D9D9' }}>
-      <a href="/" className="flex justify-center pt-8 md:pt-16">
-        <svg
-          width="100%"
-          height="100"
-          viewBox="0 0 600 150"
-          xmlns="http://www.w3.org/2000/svg"
-          className="max-w-full md:max-w-2xl"
-        >
-          <defs>
-            <path
-              id="curve"
-              d="M 50,100 Q 300,20 550,100"
-              fill="transparent"
-            />
-          </defs>
-          <text
-            fontSize="40"
-            fontWeight="600"
-            fill="#000000"
-            textAnchor="middle"
-            className="text-2xl md:text-5xl"
-          >
-            <textPath href="#curve" startOffset="50%">
-              Billboard Top Hip-Hop
-            </textPath>
-          </text>
-        </svg>
-      </a>
-
-      <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mt-8 md:mt-12">
-        {error ? (
-          <div className="text-base md:text-xl text-red-600 text-center">Error: {error}</div>
-        ) : (
-          <>
-            <TickerCounter targetNumber={stats.top40} label="Top 40" />
-            <TickerCounter targetNumber={stats.top100} label="Top 100" />
-          </>
-        )}
+    <div className="w-screen h-screen bg-[#F5F5F7] overflow-hidden relative flex flex-col items-center selection:bg-blue-500/20">
+      {/* Ambient Background Effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-200/40 rounded-full blur-[120px] mix-blend-multiply" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-cyan-200/40 rounded-full blur-[120px] mix-blend-multiply" />
+        <div className="absolute top-[40%] left-[40%] w-[30%] h-[30%] bg-pink-200/30 rounded-full blur-[100px] mix-blend-multiply" />
       </div>
 
-      {loading && (
-        <div className="text-center mt-6 text-gray-700 px-4">
-          <div className="text-sm md:text-lg">Analyzing tracks... {progress.processed} / {progress.total}</div>
-          <div className="w-full max-w-md mx-auto mt-2 bg-gray-300 rounded-full h-2">
-            <div
-              className="bg-black h-2 rounded-full transition-all duration-300"
-              style={{ width: `${(progress.processed / progress.total) * 100}%` }}
-            />
-          </div>
-        </div>
-      )}
+      <a
+        href="/"
+        className="absolute top-6 left-6 z-20 bg-white/50 hover:bg-white/80 border border-white/40 text-gray-900 px-6 py-2.5 rounded-full text-sm font-medium transition-all hover:scale-105 hover:shadow-lg backdrop-blur-md"
+      >
+        ← Back to Home
+      </a>
 
-      {tracks.length > 0 && (
-        <div className="max-w-4xl mx-auto mt-8 md:mt-12 px-4 pb-8">
-          <h2 className="text-xl md:text-2xl font-bold text-black mb-4 md:mb-6 text-center">Hip-Hop Tracks on Billboard Hot 100</h2>
-          <div className="bg-white rounded-lg shadow-lg p-4 md:p-6">
-            <div className="max-h-64 overflow-y-auto space-y-3 pr-2">
-              {tracks.map((track, index) => (
+      <div className="relative z-10 w-full max-w-5xl h-full px-4 md:px-8 pt-24 pb-8 flex flex-col">
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-gray-900 mb-2">
+            Billboard Top Hip-Hop
+          </h1>
+          <p className="text-gray-500 text-lg">Live tracking of chart performance</p>
+        </div>
+
+        <div className="flex justify-center gap-8 mb-10">
+          {error ? (
+            <div className="text-base md:text-xl text-red-500 text-center bg-red-50 px-4 py-2 rounded-lg border border-red-100">
+              Error: {error}
+            </div>
+          ) : (
+            <>
+              <div className="glass-panel px-8 py-4 rounded-2xl flex flex-col items-center min-w-[140px]">
+                <span className="text-4xl font-bold text-gray-900">{stats.top40}</span>
+                <span className="text-xs font-mono text-gray-500 uppercase tracking-widest mt-1">Top 40</span>
+              </div>
+              <div className="glass-panel px-8 py-4 rounded-2xl flex flex-col items-center min-w-[140px]">
+                <span className="text-4xl font-bold text-gray-900">{stats.top100}</span>
+                <span className="text-xs font-mono text-gray-500 uppercase tracking-widest mt-1">Top 100</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {loading ? (
+          <div className="flex-1 flex flex-col items-center justify-center glass-panel rounded-3xl p-8">
+            <div className="w-full max-w-md space-y-4">
+              <div className="flex justify-between text-sm font-medium text-gray-500">
+                <span>Analyzing tracks...</span>
+                <span>{Math.round((progress.processed / progress.total) * 100)}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
                 <div
-                  key={index}
-                  className="flex items-center gap-3 md:gap-4 p-2 md:p-3 hover:bg-gray-50 rounded transition-colors"
-                >
-                  <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-full flex items-center justify-center font-bold text-xs md:text-sm">
-                    #{track.position}
-                  </div>
-                  <div className="flex-grow min-w-0">
-                    <div className="font-semibold text-black truncate text-sm md:text-base">{track.title}</div>
-                    <div className="text-gray-600 text-xs md:text-sm truncate">{track.artist}</div>
-                  </div>
-                </div>
-              ))}
+                  className="bg-blue-500 h-full rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${(progress.processed / progress.total) * 100}%` }}
+                />
+              </div>
+              <div className="text-center text-xs text-gray-400 font-mono">
+                {progress.processed} / {progress.total} TRACKS PROCESSED
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        ) : (
+          tracks.length > 0 && (
+            <div className="flex-1 min-h-0 glass-panel rounded-3xl p-1 overflow-hidden ring-1 ring-black/5">
+              <div className="h-full overflow-y-auto p-4 md:p-6 space-y-2 custom-scrollbar">
+                {tracks.map((track, index) => (
+                  <div
+                    key={index}
+                    className="group flex items-center gap-4 p-3 hover:bg-white/50 rounded-xl transition-all duration-200 border border-transparent hover:border-white/40 hover:shadow-sm"
+                  >
+                    <div className="flex-shrink-0 w-10 h-10 bg-black text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-110 transition-transform">
+                      {track.position}
+                    </div>
+                    <div className="flex-grow min-w-0">
+                      <div className="font-bold text-gray-900 truncate text-base">{track.title}</div>
+                      <div className="text-gray-500 text-sm truncate font-medium">{track.artist}</div>
+                    </div>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono text-gray-400 px-3 py-1 rounded-full border border-gray-200">
+                      #{track.position}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 }
